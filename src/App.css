@@ -1,38 +1,66 @@
+.threads-table td,
+.threads-table th {
+  text-align: left;
+}
+
+.threads-table {
+  width: 100%;
+}
+
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  height: calc(100vh);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow: hidden;
+  @apply gap-2 p-2;
 }
 
-.App-link {
-  color: #61dafb;
+.table-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.threads-table-content {
+  overflow: auto;
+  @apply px-2 flex-1;
+}
+
+button {
+  @apply bg-gray-50 outline outline-1 outline-gray-500 border-0 rounded px-3 py-1;
+}
+
+button[disabled] {
+  @apply text-gray-300 bg-gray-100 outline-gray-300;
+}
+
+button:hover {
+  @apply outline-2 outline-gray-400 bg-gray-100;
+}
+button[disabled]:hover {
+  @apply outline outline-1 outline-gray-300;
+}
+
+input {
+  @apply bg-white border rounded px-2 py-1;
+}
+
+input[disabled] {
+  @apply bg-gray-50;
+}
+input:not([disabled]):hover {
+  @apply bg-white border border-gray-300;
+}
+
+.top-controls {
+  @apply flex gap-1 items-center;
+}
+
+a,
+a:visited {
+  @apply text-blue-600;
+}
+
+a:hover {
+  @apply text-blue-800 underline;
 }
