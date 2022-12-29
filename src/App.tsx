@@ -83,7 +83,8 @@ function SubredditSelector({
     }
 
     const inputValue = inputRef.current.value;
-    const urlRegex = /^https:\/\/(www\.|m\.){0,1}reddit\.com\/r\/(.+)\/{0,1}/;
+    const urlRegex =
+      /^https:\/\/(www\.|m\.){0,1}reddit\.com\/r\/([a-z0-9A-Z]+)\/{0,1}/;
     if (urlRegex.test(inputValue)) {
       const matches = inputValue.match(urlRegex);
       if (matches === null) {
