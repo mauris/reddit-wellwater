@@ -90,7 +90,13 @@ function SubredditSelector({
       if (matches === null) {
         return;
       }
+      if (!matches[2]) {
+        return;
+      }
       onChange(matches[2]);
+      return;
+    }
+    if (!inputValue) {
       return;
     }
     onChange(inputValue);
@@ -120,6 +126,7 @@ function SubredditSelector({
 interface Thread {
   authorName: string;
   authorId: string;
+  created: Date;
   title: string;
   body: string;
   upvotes: number;
@@ -153,10 +160,20 @@ const columns: ColumnDef<Thread, any>[] = [
   }),
 ];
 
+function convertDateToString(date: Date) {
+  return date.toISOString();
+}
+
 function convertToString(keys: (keyof Thread)[], thread: Thread) {
   return keys
-    .map((key) => String(thread[key]).replaceAll('"', '""'))
-    .map((value) => `"${value}"`)
+    .map((key) => {
+      const value = thread[key];
+      if (value instanceof Date) {
+        return convertDateToString(value);
+      }
+      return String(thread[key]);
+    })
+    .map((value) => `"${value.replaceAll('"', '""')}"`)
     .join(';');
 }
 
@@ -308,6 +325,7 @@ function App() {
         ...children.map(({ data }: { data: any }) => ({
           authorName: data.author,
           authorId: data.author_fullname,
+          created: new Date(data.created_utc * 1000),
           title: data.title,
           body: data.selftext,
           upvotes: data.ups,
