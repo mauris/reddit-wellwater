@@ -24,7 +24,7 @@ function Loader() {
         cy="50"
         r="30"
         stroke="#bbcedd"
-        stroke-width="10"
+        strokeWidth="10"
         fill="none"
       ></circle>
       <circle
@@ -32,8 +32,8 @@ function Loader() {
         cy="50"
         r="30"
         stroke="#85a2b6"
-        stroke-width="8"
-        stroke-linecap="round"
+        strokeWidth="8"
+        strokeLinecap="round"
         fill="none"
       >
         <animateTransform
@@ -124,6 +124,7 @@ function SubredditSelector({
 }
 
 interface Thread {
+  id: string;
   authorName: string;
   authorId: string;
   created: Date;
@@ -323,6 +324,7 @@ function App() {
       newThreadsSoFar = [
         ...threadsSoFar,
         ...children.map(({ data }: { data: any }) => ({
+          id: data.id,
           authorName: data.author,
           authorId: data.author_fullname,
           created: new Date(data.created_utc * 1000),
@@ -333,20 +335,23 @@ function App() {
           permalink: data.permalink,
         })),
       ];
+      setThreads(newThreadsSoFar);
+      if (newNextAfter === '' || newNextAfter === null) {
+        setDownloading(false);
+        return;
+      }
     } catch (e) {
       alert(`An error occurred while downloading more data.\n${e}`);
       setDownloading(false);
       return;
     }
 
-    setThreads(newThreadsSoFar);
-
     setTimeout(() => {
       if (controller.signal.aborted) {
         return;
       }
       performCollection(controller, newThreadsSoFar, subreddit, newNextAfter);
-    }, 5000);
+    }, 3000);
   };
 
   const threadKeys: (keyof Thread)[] =
